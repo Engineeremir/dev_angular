@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/product';
-
-import { ProductResponseModel } from 'src/app/models/productResponseModel';
 import { ProductService } from 'src/app/serivces/product.service';
 
 @Component({
@@ -27,7 +25,7 @@ export class ProductComponent implements OnInit {
         this.products = response.data
         this.dataLoaded = true;
       })
-      console.log();
+
   }
 
 }
