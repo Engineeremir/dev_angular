@@ -1,5 +1,7 @@
+import { ProductService } from 'src/app/serivces/product.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup,FormBuilder,FormControl,Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-product-add',
   templateUrl: './product-add.component.html',
@@ -8,7 +10,11 @@ import { FormGroup,FormBuilder,FormControl,Validators } from '@angular/forms';
 export class ProductAddComponent implements OnInit {
 
   productAddForm:FormGroup;
-  constructor(private formBuilder:FormBuilder) { }
+  constructor(private formBuilder:FormBuilder,
+    private productService:ProductService,
+    private toastrService:ToastrService
+
+    ) { }
 
   ngOnInit(): void {
     this.createProductAddForm();
@@ -21,6 +27,31 @@ export class ProductAddComponent implements OnInit {
         unitsInStock : ["",Validators.required],
         categoryId:["",Validators.required]
       })
+  }
+
+
+  add(){
+    if(this.productAddForm.valid){
+      let productModel =Object.assign({},this.productAddForm.value)
+      this.productService.add(productModel).subscribe(response=>{
+
+        this.toastrService.success(response.message,"Success");
+      },responseError=>{
+        if(responseError.error.Errors.length>0){
+          for (let i = 0; i < responseError.error.Errors.length; i++) {
+            this.toastrService.error(responseError.error.Errors[i].ErrorMessage,"Doğrulama Hatası")
+
+          }
+
+        }
+
+      })
+
+    }else{
+      this.toastrService.error("Absent input","Error")
+    }
+
+
   }
 
 }
