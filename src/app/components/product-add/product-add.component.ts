@@ -42,16 +42,10 @@ export class ProductAddComponent implements OnInit {
             this.toastrService.error(responseError.error.Errors[i].ErrorMessage,"Doğrulama Hatası")
 
           }
-
         }
-
       })
-
     }else{
       this.toastrService.error("Absent input","Error")
     }
-
-
   }
-
 }
